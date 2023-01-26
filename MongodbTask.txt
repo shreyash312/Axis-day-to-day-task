@@ -1,0 +1,114 @@
+db.createCollection('person')
+
+yash1> db.person.insertOne( {name:'yash',Address:[{street:'mg road',city:'delhi',pin:1002}],Address1:[{city:'mumbai',pin:2001}],bank:[{bname:'idbi',acc:3001,bal:900}]})
+
+yash1> db.person.insertOne( {name:'raj',Address:[{street:'BR road',city:'Nepal',pin:1004}],Address1:[{city:'thane',pin:2002}],bank:[{bname:'axis',acc:3002,bal:800}]})
+
+yash1> db.person.find()
+[
+  {
+    _id: ObjectId("63d1fd62d4959e0702481a81"),
+    name: 'yash',
+    Address: [ { street: 'mg road', city: 'delhi', pin: 1002 } ],
+    Address1: [ { city: 'mumbai', pin: 2001 } ],
+    bank: [ { bname: 'idbi', acc: 3001, bal: 900 } ]
+  },
+  {
+    _id: ObjectId("63d1fe9fd4959e0702481a82"),
+    name: 'raj',
+    Address: [ { street: 'BR road', city: 'Nepal', pin: 1004 } ],
+    Address1: [ { city: 'thane', pin: 2002 } ],
+    bank: [ { bname: 'axis', acc: 3002, bal: 800 } ]
+  }
+]
+
+yash1> db.person.updateOne({'bank.bname':'idbi'},{$set:{'bank.$.bal':1000}})
+
+yash1> db.person.find()
+[
+  {
+    _id: ObjectId("63d1fd62d4959e0702481a81"),
+    name: 'yash',
+    Address: [ { street: 'mg road', city: 'delhi', pin: 1002 } ],
+    Address1: [ { city: 'mumbai', pin: 2001 } ],
+    bank: [ { bname: 'idbi', acc: 3001, bal: 1000 } ]
+  },
+  {
+    _id: ObjectId("63d1fe9fd4959e0702481a82"),
+    name: 'raj',
+    Address: [ { street: 'BR road', city: 'Nepal', pin: 1004 } ],
+    Address1: [ { city: 'thane', pin: 2002 } ],
+    bank: [ { bname: 'axis', acc: 3002, bal: 800 } ]
+  }
+]
+
+yash1> db.person.updateOne( {name:'raj'},{$set:{bank1:[{bname:'hfdc',acc:3004,bal:1600}]}})
+
+yash1> db.person.find()
+[
+  {
+    _id: ObjectId("63d1fd62d4959e0702481a81"),
+    name: 'yash',
+    Address: [ { street: 'mg road', city: 'delhi', pin: 1002 } ],
+    Address1: [ { city: 'mumbai', pin: 2001 } ],
+    bank: [ { bname: 'idbi', acc: 3001, bal: 1000 } ]
+  },
+  {
+    _id: ObjectId("63d1fe9fd4959e0702481a82"),
+    name: 'raj',
+    Address: [ { street: 'BR road', city: 'Nepal', pin: 1004 } ],
+    Address1: [ { city: 'thane', pin: 2002 } ],
+    bank: [ { bname: 'axis', acc: 3002, bal: 800 } ],
+    bank1: [ { bname: 'hfdc', acc: 3004, bal: 1600 } ]
+  }
+]
+
+yash1> db.person.updateOne( {name:'yash'},{$set:{bank1:[{bname:'hfdc',acc:3002,bal:600}]}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+yash1> db.person.find()
+[
+  {
+    _id: ObjectId("63d1fd62d4959e0702481a81"),
+    name: 'yash',
+    Address: [ { street: 'mg road', city: 'delhi', pin: 1002 } ],
+    Address1: [ { city: 'mumbai', pin: 2001 } ],
+    bank: [ { bname: 'idbi', acc: 3001, bal: 1000 } ],
+    bank1: [ { bname: 'hfdc', acc: 3002, bal: 600 } ]
+  },
+  {
+    _id: ObjectId("63d1fe9fd4959e0702481a82"),
+    name: 'raj',
+    Address: [ { street: 'BR road', city: 'Nepal', pin: 1004 } ],
+    Address1: [ { city: 'thane', pin: 2002 } ],
+    bank: [ { bname: 'axis', acc: 3002, bal: 800 } ],
+    bank1: [ { bname: 'hfdc', acc: 3004, bal: 1600 } ]
+  }
+]
+
+yash1> db.person.updateOne({$and:[{name:'raj'},{'bank1.bname':'hfdc'}]},{$set:{'bank1.$.bal':3200}})
+
+yash1> db.person.find()
+[
+  {
+    _id: ObjectId("63d1fd62d4959e0702481a81"),
+    name: 'yash',
+    Address: [ { street: 'mg road', city: 'delhi', pin: 1002 } ],
+    Address1: [ { city: 'mumbai', pin: 2001 } ],
+    bank: [ { bname: 'idbi', acc: 3001, bal: 1000 } ],
+    bank1: [ { bname: 'hfdc', acc: 3002, bal: 600 } ]
+  },
+  {
+    _id: ObjectId("63d1fe9fd4959e0702481a82"),
+    name: 'raj',
+    Address: [ { street: 'BR road', city: 'Nepal', pin: 1004 } ],
+    Address1: [ { city: 'thane', pin: 2002 } ],
+    bank: [ { bname: 'axis', acc: 3002, bal: 800 } ],
+    bank1: [ { bname: 'hfdc', acc: 3004, bal: 3200 } ]
+  }
+]
